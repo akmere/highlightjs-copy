@@ -22,6 +22,9 @@ class CopyButtonPlugin {
   }
   "after:highlightElement"({ el, text }) {
     // Create the copy button and append it to the codeblock.
+    el.parentElement.querySelectorAll("button").forEach((button) => {
+      button.remove();
+    });
     let button = Object.assign(document.createElement("button"), {
       innerHTML: locales[lang]?.[0] || "Copy",
       className: "hljs-copy-button",
@@ -29,9 +32,6 @@ class CopyButtonPlugin {
     button.dataset.copied = false;
     el.parentElement.classList.add("hljs-copy-wrapper");
     el.parentElement.appendChild(button);
-    el.parentElement.querySelectorAll("button").forEach((button) => {
-      button.remove();
-    });
 
     // Add a custom proprety to the code block so that the copy button can reference and match its background-color value.
     el.parentElement.style.setProperty(
